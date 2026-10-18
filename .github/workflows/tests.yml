@@ -1,0 +1,24 @@
+name: Tests
+
+on:
+    push:
+    pull_request:
+
+jobs:
+  unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install test dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chezmoi shellcheck zsh
+      - name: Run tests
+        run: make test
+
+  # docker:
+  #   runs-on: ubuntu-24.04
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Run tests in Ubuntu container
+  #       run: make test-docker

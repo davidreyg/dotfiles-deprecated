@@ -90,6 +90,7 @@ if [ "$manager" = brew ]; then
         brew install $missing
     fi
     if [ -n "$missing_casks" ]; then
+        # shellcheck disable=SC2086
         brew install --cask $missing_casks
     fi
     exit 0

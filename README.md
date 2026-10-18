@@ -167,3 +167,28 @@ and `ubuntu-insights` are left alone.
 To verify idempotence, run `chezmoi apply` a second time and confirm that it
 does not report unexpected changes. Review `chezmoi diff` before accepting any
 conflict; do not use `--force` to hide one.
+
+## Tests
+
+The repository includes fast tests that validate rendered chezmoi templates,
+shell syntax, package metadata, and the configured Zinit commands. They do not
+install the real package profile or modify the host home directory.
+
+Install `chezmoi`, `zsh`, and `shellcheck`, then run:
+
+```sh
+make test
+```
+
+The same suite can run in a clean Ubuntu 24.04 container. Docker is used only
+for isolation; package installation and Zinit cloning are not executed by the
+tests:
+
+```sh
+make test-docker
+```
+
+GitHub Actions runs both the native Ubuntu test and the Docker test. The
+package installer remains intentionally outside the default test path because
+its behavior depends on the host distribution, privileges, package mirrors,
+and (on macOS) Homebrew casks.
