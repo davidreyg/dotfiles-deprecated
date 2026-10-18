@@ -1,0 +1,56 @@
+zsh:
+  options:
+    - promptsubst
+  zinit:
+    enabled: true
+    home: "${XDG_DATA_HOME:-$HOME}/zinit/zinit.git"
+    repository: https://github.com/zdharma-continuum/zinit.git
+    plugins:
+      - enabled: true
+        repository: zsh-users/zsh-completions
+        ice:
+          - 'as"completion"'
+      - enabled: true
+        repository: zsh-users/zsh-autosuggestions
+        ice: []
+      - enabled: true
+        repository: Aloxaf/fzf-tab
+        ice: []
+      - enabled: true
+        repository: MichaelAquilina/zsh-you-should-use
+        ice: []
+      # Keep syntax highlighting last so it can wrap the completed widget set.
+      - enabled: true
+        repository: zdharma-continuum/fast-syntax-highlighting
+        ice:
+          - 'atinit"zicompinit; zicdreplay"'
+    snippets:
+      # Optional libraries can be enabled here when needed.
+      - enabled: true
+        source: OMZL::git.zsh
+        ice: []
+      - enabled: true
+        source: OMZP::git
+        ice:
+          - 'atload"unalias grv"'
+      - enabled: true
+        source: OMZL::key-bindings.zsh
+        ice: []
+      - enabled: true
+        source: OMZP::colored-man-pages
+        ice: []
+      - enabled: true
+        source: OMZP::docker
+        ice: []
+      - enabled: true
+        source: OMZ::plugins/docker/completions/_docker
+        ice:
+          - 'as"completion"'
+    for:
+      - enabled: false
+        ice: []
+        sources:
+          - OMZL::prompt_info_functions.zsh
+          - OMZT::gnzh
+  starship:
+    enabled: true

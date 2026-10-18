@@ -3,10 +3,33 @@
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
+{{ range .zsh.options }}
+setopt {{ . }}
+{{- end }}
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
+
+{{ if .zsh.zinit.enabled -}}
+zinit_home="{{ .zsh.zinit.home }}"
+if [ -r "$zinit_home/zinit.zsh" ]; then
+    source "$zinit_home/zinit.zsh"
+{{ range .zsh.zinit.plugins }}{{ if .enabled }}
+{{ range .ice }}    zinit ice {{ . }}
+{{- end }}
+    zinit light '{{ .repository }}'
+{{- end }}{{- end }}{{ range .zsh.zinit.snippets }}{{ if .enabled }}
+{{ range .ice }}    zinit ice {{ . }}
+{{- end }}
+    zinit snippet '{{ .source }}'
+{{- end }}{{- end }}{{ range .zsh.zinit.for }}{{ if .enabled }}
+{{ range .ice }}    zinit ice {{ . }}
+{{- end }}
+    zinit for{{ range .sources }} '{{ . }}'{{ end }}
+{{- end }}{{- end }}
+fi
+{{- end }}
 
 autoload -Uz compinit
 compinit
@@ -14,3 +37,9 @@ compinit
 for config_file in "${ZDOTDIR:-$HOME}"/.config/zsh/conf.d/*.zsh(N); do
     source "$config_file"
 done
+
+{{ if .zsh.starship.enabled -}}
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
+fi
+{{- end }}

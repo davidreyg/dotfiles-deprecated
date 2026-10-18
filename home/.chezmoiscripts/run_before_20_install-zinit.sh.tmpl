@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -eu
+
+{{ if .zsh.zinit.enabled -}}
+zinit_home="{{ .zsh.zinit.home }}"
+
+if [ ! -d "$zinit_home/.git" ]; then
+    mkdir -p "$(dirname "$zinit_home")"
+    git clone '{{ .zsh.zinit.repository }}' "$zinit_home"
+fi
+{{- end }}
