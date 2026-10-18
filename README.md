@@ -92,7 +92,7 @@ To keep the current default shell, edit
 
 ```toml
 [data.shell]
-change_default = true
+change_default = false
 ```
 
 Run `chezmoi apply`. The post-apply script verifies that Zsh is listed in

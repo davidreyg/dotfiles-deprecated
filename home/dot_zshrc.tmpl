@@ -1,8 +1,9 @@
 # Keep Zsh startup non-destructive: application-specific settings live in conf.d.
 
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=5000
+SAVEHIST=5000
+HISTDUP=erase
 {{ range .zsh.options }}
 setopt {{ . }}
 {{- end }}
@@ -10,6 +11,8 @@ setopt APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt SHARE_HISTORY
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'l:|=* r:|=*' 'r:|=* l:|=*'
 
 {{ if .zsh.zinit.enabled -}}
 zinit_home="{{ .zsh.zinit.home }}"
