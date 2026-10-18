@@ -12,5 +12,8 @@ if [ -z "$mise" ]; then
     exit 0
 fi
 
+PATH="$HOME/.local/share/mise/shims:$HOME/.local/share/mise/bin:$HOME/.local/bin:$PATH"
+export PATH
+
 "$mise" install
 "$mise" completion zsh --install

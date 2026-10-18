@@ -25,7 +25,7 @@ not modified.
     │   ├── run_before_00_preflight.sh.tmpl
     │   ├── run_before_10_install-packages.sh.tmpl
     │   ├── run_before_20_install-zinit.sh.tmpl
-    │   ├── run_after_30_install-mise-completion.sh.tmpl
+    │   ├── run_before_11_install-mise-completion.sh.tmpl
     │   └── run_onchange_after_90_change-shell.sh.tmpl
     ├── .chezmoiexternal.toml.tmpl
     ├── .chezmoidata/external.yaml
@@ -144,7 +144,7 @@ such as `atload`, `as`, and `atinit` without changing the template. For example:
 
 ```yaml
 - enabled: true
-  source: OMZ::plugins/docker/completions/_docker
+  source: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/docker/completions/_docker
   ice:
     - 'as"completion"'
 ```
@@ -155,7 +155,9 @@ enabled examples for `OMZL::git.zsh`, `OMZP::git`, `OMZL::key-bindings.zsh`,
 colored man pages, and the Docker plugin/completion. The prompt-information
 example using `zinit for` is disabled by default; enable it when needed.
 Starship is initialized only when its command is available, so a partial
-provisioning run does not prevent Zsh from starting. The prompt configuration is
+provisioning run does not prevent Zsh from starting. Docker and eza completion
+files use raw GitHub URLs so Zinit does not interpret them as local snippet
+paths. The prompt configuration is
 managed in
 [`home/dot_config/starship.toml`](./home/dot_config/starship.toml). The base
 profile also installs JetBrains Mono Nerd Font; Homebrew installs it as a cask
@@ -176,13 +178,15 @@ explicitly managed `chezmoi`, `rbw`, `starship`, and `zsh` directories under
 `~/.config` are part of this repository; unrelated directories such as `Code`
 and `ubuntu-insights` are left alone.
 
-The `run_after_30_install-mise-completion.sh.tmpl` script runs
+The `run_before_11_install-mise-completion.sh.tmpl` script runs
 `mise completion zsh --install` after the external binary is available. The
 generated completion is stored in
 `${XDG_DATA_HOME:-$HOME}/zsh/site-functions`, and `.zshrc` adds that directory
-to `fpath` before running `compinit`. If `mise` is unavailable on an unsupported
-OS/architecture, the script skips the installation without preventing the
-rest of chezmoi from applying.
+to `fpath` before running `compinit`. The mise shims and bin directories are
+also added to `PATH` before Zinit loads plugins, so plugins such as
+`zsh-eza-ls-plugin` can find tools installed by mise. If `mise` is unavailable
+on an unsupported OS/architecture, the script skips the installation without
+preventing the rest of chezmoi from applying.
 
 To verify idempotence, run `chezmoi apply` a second time and confirm that it
 does not report unexpected changes. Review `chezmoi diff` before accepting any

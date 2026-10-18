@@ -52,11 +52,11 @@ zsh:
         source: OMZP::docker
         ice: []
       - enabled: true
-        source: OMZ::plugins/docker/completions/_docker
+        source: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/docker/completions/_docker
         ice:
           - 'as"completion"'
       - enabled: true
-        source: https://github.com/eza-community/eza/blob/main/completions/zsh/_eza
+        source: https://raw.githubusercontent.com/eza-community/eza/main/completions/zsh/_eza
         ice:
           - 'as"completion"'
     for:

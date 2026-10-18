@@ -26,7 +26,7 @@ render() {
 render home/dot_zshrc.tmpl zshrc
 render home/.chezmoiscripts/run_before_10_install-packages.sh.tmpl packages.sh
 render home/.chezmoiscripts/run_before_20_install-zinit.sh.tmpl zinit.sh
-render home/.chezmoiscripts/run_after_30_install-mise-completion.sh.tmpl mise-completion.sh
+render home/.chezmoiscripts/run_before_11_install-mise-completion.sh.tmpl mise-completion.sh
 render home/.chezmoiexternal.toml.tmpl external.toml
 
 zsh -n "$tmpdir/zshrc"
@@ -43,7 +43,9 @@ grep -F 'zinit ice as"completion"' "$tmpdir/zshrc" >/dev/null
 grep -F 'zinit ice atload"unalias grv"' "$tmpdir/zshrc" >/dev/null
 grep -F 'zinit ice atinit"zicompinit; zicdreplay"' "$tmpdir/zshrc" >/dev/null
 grep -F 'fpath=("$mise_completion_dir" $fpath)' "$tmpdir/zshrc" >/dev/null
-grep -F "zinit snippet 'OMZ::plugins/docker/completions/_docker'" "$tmpdir/zshrc" >/dev/null
+grep -F 'PATH="$HOME/.local/share/mise/shims:$PATH"' "$tmpdir/zshrc" >/dev/null
+grep -F "zinit snippet 'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/docker/completions/_docker'" "$tmpdir/zshrc" >/dev/null
+grep -F 'mise_completion_dir="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions"' "$tmpdir/zshrc" >/dev/null
 grep -F 'brew install --cask' "$tmpdir/packages.sh" >/dev/null
 if grep -E 'package_installed [^ ]+ "(rbw|starship)"' "$tmpdir/packages.sh" >/dev/null; then
     printf '%s\n' 'rbw and starship must not be installed by the system package script.' >&2

@@ -7,7 +7,7 @@ set -eu
 catalog=$DOTFILES_ROOT/home/.chezmoidata/packages.yaml
 zsh_catalog=$DOTFILES_ROOT/home/.chezmoidata/zsh.yaml
 
-for package in git nmap jetbrains-mono-nerd-font fzf eza; do
+for package in git nmap jetbrains-mono-nerd-font make; do
     grep -E "^        ${package}:" "$catalog" >/dev/null
 done
 
@@ -23,7 +23,7 @@ for source in \
     'OMZP::git' \
     'OMZP::colored-man-pages' \
     'OMZP::docker' \
-    'OMZ::plugins/docker/completions/_docker'; do
+    'https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/docker/completions/_docker'; do
     grep -F "source: $source" "$zsh_catalog" >/dev/null
 done
 
