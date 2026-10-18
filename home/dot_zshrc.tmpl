@@ -14,6 +14,11 @@ setopt SHARE_HISTORY
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'l:|=* r:|=*' 'r:|=* l:|=*'
 
+mise_completion_dir="${XDG_DATA_HOME:-$HOME}/.local/share/zsh/site-functions"
+if [ -d "$mise_completion_dir" ]; then
+    fpath=("$mise_completion_dir" $fpath)
+fi
+
 {{ if .zsh.zinit.enabled -}}
 zinit_home="{{ .zsh.zinit.home }}"
 if [ -r "$zinit_home/zinit.zsh" ]; then

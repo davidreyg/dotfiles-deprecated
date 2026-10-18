@@ -25,6 +25,7 @@ not modified.
     │   ├── run_before_00_preflight.sh.tmpl
     │   ├── run_before_10_install-packages.sh.tmpl
     │   ├── run_before_20_install-zinit.sh.tmpl
+    │   ├── run_after_30_install-mise-completion.sh.tmpl
     │   └── run_onchange_after_90_change-shell.sh.tmpl
     ├── .chezmoiexternal.toml.tmpl
     ├── .chezmoidata/external.yaml
@@ -174,6 +175,14 @@ should set the corresponding binary entry before enabling it. Only the
 explicitly managed `chezmoi`, `rbw`, `starship`, and `zsh` directories under
 `~/.config` are part of this repository; unrelated directories such as `Code`
 and `ubuntu-insights` are left alone.
+
+The `run_after_30_install-mise-completion.sh.tmpl` script runs
+`mise completion zsh --install` after the external binary is available. The
+generated completion is stored in
+`${XDG_DATA_HOME:-$HOME}/zsh/site-functions`, and `.zshrc` adds that directory
+to `fpath` before running `compinit`. If `mise` is unavailable on an unsupported
+OS/architecture, the script skips the installation without preventing the
+rest of chezmoi from applying.
 
 To verify idempotence, run `chezmoi apply` a second time and confirm that it
 does not report unexpected changes. Review `chezmoi diff` before accepting any

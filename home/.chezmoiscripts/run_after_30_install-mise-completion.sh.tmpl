@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -eu
+
+mise="$HOME/.local/bin/mise"
+if [ ! -x "$mise" ]; then
+    mise=$(command -v mise || true)
+fi
+
+if [ -z "$mise" ]; then
+    printf '%s\n' 'mise is not available; skipping Zsh completion installation.' >&2
+    exit 0
+fi
+
+"$mise" completion zsh --install
