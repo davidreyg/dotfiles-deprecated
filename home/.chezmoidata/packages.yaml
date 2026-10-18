@@ -51,6 +51,14 @@ packages:
           apk: eza
           brew: eza
           brew_cask: false
+        make:
+          apt: make
+          dnf: make
+          pacman: make
+          zypper: make
+          apk: make
+          brew: make
+          brew_cask: false
     shell:
       enabled: true
       packages:
