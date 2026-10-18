@@ -27,22 +27,6 @@ packages:
           apk: font-jetbrains-mono
           brew: font-jetbrains-mono-nerd-font
           brew_cask: true
-        fzf:
-          apt: fzf
-          dnf: fzf
-          pacman: fzf
-          zypper: fzf
-          apk: fzf
-          brew: fzf
-          brew_cask: false
-        eza:
-          apt: eza
-          dnf: eza
-          pacman: eza
-          zypper: eza
-          apk: eza
-          brew: eza
-          brew_cask: false
         make:
           apt: make
           dnf: make
