@@ -1,0 +1,16 @@
+# Keep Zsh startup non-destructive: application-specific settings live in conf.d.
+
+HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt SHARE_HISTORY
+
+autoload -Uz compinit
+compinit
+
+for config_file in "${ZDOTDIR:-$HOME}"/.config/zsh/conf.d/*.zsh(N); do
+    source "$config_file"
+done
