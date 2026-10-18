@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -eu
+
+case "$(uname -s)" in
+    Linux)
+        [ -r /etc/os-release ] || {
+            printf '%s\n' 'Cannot detect Linux distribution: /etc/os-release is missing.' >&2
+            exit 1
+        }
+        ;;
+    Darwin)
+        ;;
+    *)
+        printf 'Unsupported operating system: %s\n' "$(uname -s)" >&2
+        exit 1
+        ;;
+esac

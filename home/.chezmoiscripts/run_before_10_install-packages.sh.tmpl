@@ -1,0 +1,122 @@
+#!/bin/sh
+
+set -eu
+
+package_installed() {
+    manager=$1
+    package=$2
+
+    case "$manager" in
+        apt-get) dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -Fxq 'install ok installed' ;;
+        dnf|zypper) rpm -q "$package" >/dev/null 2>&1 ;;
+        pacman) pacman -Q "$package" >/dev/null 2>&1 ;;
+        apk) apk info -e "$package" >/dev/null 2>&1 ;;
+        brew) brew list --formula "$package" >/dev/null 2>&1 ;;
+        *) return 1 ;;
+    esac
+}
+
+if [ "$(uname -s)" = Darwin ]; then
+    manager=brew
+elif [ "$(uname -s)" = Linux ]; then
+    # shellcheck disable=SC1091
+    . /etc/os-release
+    os_id=${ID:-}
+    os_like=${ID_LIKE:-}
+    case "$os_id:$os_like" in
+        ubuntu:*|debian:*|*:*debian*) manager=apt-get ;;
+        fedora:*|rhel:*|centos:*|*:fedora*|*:rhel*) manager=dnf ;;
+        arch:*|manjaro:*|*:arch*) manager=pacman ;;
+        opensuse*:*|sles:*|*:suse*) manager=zypper ;;
+        alpine:*|*:alpine*) manager=apk ;;
+        *)
+            printf 'Unsupported Linux distribution: %s (ID_LIKE=%s)\n' "$os_id" "$os_like" >&2
+            exit 1
+            ;;
+    esac
+else
+    printf 'Unsupported operating system: %s\n' "$(uname -s)" >&2
+    exit 1
+fi
+
+missing=
+case "$manager" in
+    apt-get)
+{{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+        if ! package_installed apt-get "{{ $package.apt }}"; then missing="${missing} {{ $package.apt }}"; fi
+{{- end }}{{ end }}{{ end }}
+        ;;
+    dnf)
+{{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+        if ! package_installed dnf "{{ $package.dnf }}"; then missing="${missing} {{ $package.dnf }}"; fi
+{{- end }}{{ end }}{{ end }}
+        ;;
+    pacman)
+{{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+        if ! package_installed pacman "{{ $package.pacman }}"; then missing="${missing} {{ $package.pacman }}"; fi
+{{- end }}{{ end }}{{ end }}
+        ;;
+    zypper)
+{{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+        if ! package_installed zypper "{{ $package.zypper }}"; then missing="${missing} {{ $package.zypper }}"; fi
+{{- end }}{{ end }}{{ end }}
+        ;;
+    apk)
+{{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+        if ! package_installed apk "{{ $package.apk }}"; then missing="${missing} {{ $package.apk }}"; fi
+{{- end }}{{ end }}{{ end }}
+        ;;
+    brew)
+{{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+        if ! package_installed brew "{{ $package.brew }}"; then missing="${missing} {{ $package.brew }}"; fi
+{{- end }}{{ end }}{{ end }}
+        ;;
+esac
+
+if [ -z "$missing" ]; then
+    exit 0
+fi
+
+if [ "$manager" = brew ]; then
+    # Homebrew is normally installed for the current user.
+    # shellcheck disable=SC2086
+    brew install $missing
+    exit 0
+fi
+
+if [ "$(id -u)" -eq 0 ]; then
+    run_as_root=
+elif command -v sudo >/dev/null 2>&1; then
+    run_as_root=sudo
+else
+    printf '%s\n' 'Packages are missing and sudo is unavailable.' >&2
+    exit 1
+fi
+
+run_privileged() {
+    if [ -n "$run_as_root" ]; then
+        "$run_as_root" "$@"
+    else
+        "$@"
+    fi
+}
+
+# shellcheck disable=SC2086
+case "$manager" in
+    apt-get)
+        run_privileged apt-get update
+        run_privileged apt-get install -y $missing
+        ;;
+    dnf)
+        run_privileged dnf install -y $missing
+        ;;
+    pacman)
+        run_privileged pacman -S --needed --noconfirm $missing
+        ;;
+    zypper)
+        run_privileged zypper --non-interactive install $missing
+        ;;
+    apk)
+        run_privileged apk add $missing
+        ;;
+esac
