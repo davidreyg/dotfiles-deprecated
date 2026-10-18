@@ -12,6 +12,7 @@ package_installed() {
         pacman) pacman -Q "$package" >/dev/null 2>&1 ;;
         apk) apk info -e "$package" >/dev/null 2>&1 ;;
         brew) brew list --formula "$package" >/dev/null 2>&1 ;;
+        brew-cask) brew list --cask "$package" >/dev/null 2>&1 ;;
         *) return 1 ;;
     esac
 }
@@ -40,6 +41,7 @@ else
 fi
 
 missing=
+missing_casks=
 case "$manager" in
     apt-get)
 {{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
@@ -68,19 +70,28 @@ case "$manager" in
         ;;
     brew)
 {{- range $group := .packages.groups }}{{ if $group.enabled }}{{ range $package := $group.packages }}
+{{- if $package.brew_cask }}
+        if ! package_installed brew-cask "{{ $package.brew }}"; then missing_casks="${missing_casks} {{ $package.brew }}"; fi
+{{- else }}
         if ! package_installed brew "{{ $package.brew }}"; then missing="${missing} {{ $package.brew }}"; fi
+{{- end }}
 {{- end }}{{ end }}{{ end }}
         ;;
 esac
 
-if [ -z "$missing" ]; then
+if [ -z "$missing" ] && [ -z "$missing_casks" ]; then
     exit 0
 fi
 
 if [ "$manager" = brew ]; then
     # Homebrew is normally installed for the current user.
     # shellcheck disable=SC2086
-    brew install $missing
+    if [ -n "$missing" ]; then
+        brew install $missing
+    fi
+    if [ -n "$missing_casks" ]; then
+        brew install --cask $missing_casks
+    fi
     exit 0
 fi
 

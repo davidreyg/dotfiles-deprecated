@@ -10,6 +10,31 @@ packages:
           zypper: git
           apk: git
           brew: git
+          brew_cask: false
+        rbw:
+          apt: rbw
+          dnf: rbw
+          pacman: rbw
+          zypper: rbw
+          apk: rbw
+          brew: rbw
+          brew_cask: false
+        nmap:
+          apt: nmap
+          dnf: nmap
+          pacman: nmap
+          zypper: nmap
+          apk: nmap
+          brew: nmap
+          brew_cask: false
+        jetbrains-mono-nerd-font:
+          apt: fonts-jetbrains-mono
+          dnf: jetbrains-mono-fonts
+          pacman: ttf-jetbrains-mono-nerd
+          zypper: jetbrains-mono-fonts
+          apk: font-jetbrains-mono
+          brew: font-jetbrains-mono-nerd-font
+          brew_cask: true
     shell:
       enabled: true
       packages:
@@ -20,6 +45,15 @@ packages:
           zypper: zsh
           apk: zsh
           brew: zsh
+          brew_cask: false
+        starship:
+          apt: starship
+          dnf: starship
+          pacman: starship
+          zypper: starship
+          apk: starship
+          brew: starship
+          brew_cask: false
     development:
       enabled: false
       packages:
@@ -30,6 +64,7 @@ packages:
           zypper: curl
           apk: curl
           brew: curl
+          brew_cask: false
         ripgrep:
           apt: ripgrep
           dnf: ripgrep
@@ -37,6 +72,7 @@ packages:
           zypper: ripgrep
           apk: ripgrep
           brew: ripgrep
+          brew_cask: false
         fd:
           apt: fd-find
           dnf: fd-find
@@ -44,3 +80,4 @@ packages:
           zypper: fd
           apk: fd
           brew: fd
+          brew_cask: false
