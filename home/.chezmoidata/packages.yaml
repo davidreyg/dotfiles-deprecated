@@ -1,0 +1,46 @@
+packages:
+  groups:
+    base:
+      enabled: true
+      packages:
+        git:
+          apt: git
+          dnf: git
+          pacman: git
+          zypper: git
+          apk: git
+          brew: git
+    shell:
+      enabled: true
+      packages:
+        zsh:
+          apt: zsh
+          dnf: zsh
+          pacman: zsh
+          zypper: zsh
+          apk: zsh
+          brew: zsh
+    development:
+      enabled: false
+      packages:
+        curl:
+          apt: curl
+          dnf: curl
+          pacman: curl
+          zypper: curl
+          apk: curl
+          brew: curl
+        ripgrep:
+          apt: ripgrep
+          dnf: ripgrep
+          pacman: ripgrep
+          zypper: ripgrep
+          apk: ripgrep
+          brew: ripgrep
+        fd:
+          apt: fd-find
+          dnf: fd-find
+          pacman: fd
+          zypper: fd
+          apk: fd
+          brew: fd
