@@ -13,8 +13,10 @@ done
 
 grep -A8 '^        jetbrains-mono-nerd-font:' "$catalog" |
     grep -F 'brew_cask: true' >/dev/null
-grep -A7 '^        starship:' "$catalog" |
-    grep -F 'brew_cask: false' >/dev/null
+if grep -E '^        (rbw|starship):' "$catalog" >/dev/null; then
+    printf '%s\n' 'rbw and starship must use external binaries, not system packages.' >&2
+    exit 1
+fi
 
 for source in \
     'OMZL::git.zsh' \
@@ -28,3 +30,8 @@ done
 grep -F "atload\"unalias grv\"" "$zsh_catalog" >/dev/null
 grep -F "as\"completion\"" "$zsh_catalog" >/dev/null
 grep -F "atinit\"zicompinit; zicdreplay\"" "$zsh_catalog" >/dev/null
+
+external=$DOTFILES_ROOT/home/.chezmoiexternal.toml.tmpl
+grep -F '[".local/bin/rbw"]' "$external" >/dev/null
+grep -F '[".local/bin/starship"]' "$external" >/dev/null
+grep -F 'archive-file' "$external" >/dev/null

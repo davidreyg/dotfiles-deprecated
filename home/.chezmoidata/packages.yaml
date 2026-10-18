@@ -11,14 +11,6 @@ packages:
           apk: git
           brew: git
           brew_cask: false
-        rbw:
-          apt: rbw
-          dnf: rbw
-          pacman: rbw
-          zypper: rbw
-          apk: rbw
-          brew: rbw
-          brew_cask: false
         nmap:
           apt: nmap
           dnf: nmap
@@ -70,14 +62,6 @@ packages:
           apk: zsh
           brew: zsh
           brew_cask: false
-        starship:
-          apt: starship
-          dnf: starship
-          pacman: starship
-          zypper: starship
-          apk: starship
-          brew: starship
-          brew_cask: false
     development:
       enabled: false
       packages:
@@ -105,3 +89,27 @@ packages:
           apk: fd
           brew: fd
           brew_cask: false
+  external:
+    enabled: true
+    binaries:
+      rbw:
+        enabled: true
+        version: 1.15.0
+        linux_amd64:
+          url: https://github.com/doy/rbw/releases/download/1.15.0/rbw_1.15.0_linux_amd64.tar.gz
+          path: rbw
+      starship:
+        enabled: true
+        version: 1.27.0
+        linux_amd64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-x86_64-unknown-linux-gnu.tar.gz
+          path: starship
+        linux_arm64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-aarch64-unknown-linux-gnu.tar.gz
+          path: starship
+        darwin_amd64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-x86_64-apple-darwin.tar.gz
+          path: starship
+        darwin_arm64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-aarch64-apple-darwin.tar.gz
+          path: starship

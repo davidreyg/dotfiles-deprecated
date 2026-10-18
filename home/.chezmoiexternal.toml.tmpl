@@ -1,0 +1,43 @@
+{{- if .packages.external.enabled -}}
+{{- if .packages.external.binaries.rbw.enabled -}}
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") }}
+[".local/bin/rbw"]
+    type = "archive-file"
+    url = "{{ .packages.external.binaries.rbw.linux_amd64.url }}"
+    path = "{{ .packages.external.binaries.rbw.linux_amd64.path }}"
+    executable = true
+    refreshPeriod = "168h"
+{{- end }}
+{{- end }}
+{{- if .packages.external.binaries.starship.enabled -}}
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") }}
+[".local/bin/starship"]
+    type = "archive-file"
+    url = "{{ .packages.external.binaries.starship.linux_amd64.url }}"
+    path = "{{ .packages.external.binaries.starship.linux_amd64.path }}"
+    executable = true
+    refreshPeriod = "168h"
+{{- else if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "arm64") }}
+[".local/bin/starship"]
+    type = "archive-file"
+    url = "{{ .packages.external.binaries.starship.linux_arm64.url }}"
+    path = "{{ .packages.external.binaries.starship.linux_arm64.path }}"
+    executable = true
+    refreshPeriod = "168h"
+{{- else if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "amd64") }}
+[".local/bin/starship"]
+    type = "archive-file"
+    url = "{{ .packages.external.binaries.starship.darwin_amd64.url }}"
+    path = "{{ .packages.external.binaries.starship.darwin_amd64.path }}"
+    executable = true
+    refreshPeriod = "168h"
+{{- else if and (eq .chezmoi.os "darwin") (eq .chezmoi.arch "arm64") }}
+[".local/bin/starship"]
+    type = "archive-file"
+    url = "{{ .packages.external.binaries.starship.darwin_arm64.url }}"
+    path = "{{ .packages.external.binaries.starship.darwin_arm64.path }}"
+    executable = true
+    refreshPeriod = "168h"
+{{- end }}
+{{- end }}
+{{- end }}

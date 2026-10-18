@@ -12,7 +12,7 @@ RUN apt-get update \
         git \
         make \
         shellcheck \
-        zsh \
+        # zsh \
     && mkdir -p /opt/chezmoi \
     && curl -fsSL \
         "https://github.com/twpayne/chezmoi/releases/download/v${CHEZMOI_VERSION}/chezmoi_${CHEZMOI_VERSION}_linux_amd64.tar.gz" \

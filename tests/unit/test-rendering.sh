@@ -26,6 +26,7 @@ render() {
 render home/dot_zshrc.tmpl zshrc
 render home/.chezmoiscripts/run_before_10_install-packages.sh.tmpl packages.sh
 render home/.chezmoiscripts/run_before_20_install-zinit.sh.tmpl zinit.sh
+render home/.chezmoiexternal.toml.tmpl external.toml
 
 zsh -n "$tmpdir/zshrc"
 sh -n "$tmpdir/packages.sh"
@@ -42,3 +43,6 @@ grep -F 'zinit ice atinit"zicompinit; zicdreplay"' "$tmpdir/zshrc" >/dev/null
 grep -F "zinit snippet 'OMZ::plugins/docker/completions/_docker'" "$tmpdir/zshrc" >/dev/null
 grep -F 'brew install --cask' "$tmpdir/packages.sh" >/dev/null
 grep -F "git clone 'https://github.com/zdharma-continuum/zinit.git'" "$tmpdir/zinit.sh" >/dev/null
+grep -F '[".local/bin/rbw"]' "$tmpdir/external.toml" >/dev/null
+grep -F '[".local/bin/starship"]' "$tmpdir/external.toml" >/dev/null
+grep -F 'rbw_1.15.0_linux_amd64.tar.gz' "$tmpdir/external.toml" >/dev/null

@@ -26,6 +26,7 @@ not modified.
     │   ├── run_before_10_install-packages.sh.tmpl
     │   ├── run_before_20_install-zinit.sh.tmpl
     │   └── run_onchange_after_90_change-shell.sh.tmpl
+    ├── .chezmoiexternal.toml.tmpl
     ├── dot_config/
     │   ├── chezmoi/chezmoi.toml
     │   ├── starship.toml
@@ -48,7 +49,7 @@ where the current login shell must be preserved.
 
 ## Safe Zsh setup
 
-The package installer reads package names from
+The package installer reads system package names from
 [`home/.chezmoidata/packages.yaml`](./home/.chezmoidata/packages.yaml) and
 installs every enabled group. It supports Debian/Ubuntu, Fedora/RHEL/CentOS,
 Arch-based systems, openSUSE/SLES, Alpine, and macOS with Homebrew. Package
@@ -58,7 +59,7 @@ Use the groups as profiles:
 
 - `base`: tools required on every machine, including the JetBrains Mono Nerd
   Font required by the Starship prompt symbols.
-- `shell`: Zsh and Starship.
+- `shell`: Zsh.
 - `development`: optional development tools such as `curl`, `ripgrep`, and
   `fd`; set `enabled: true` when you want that profile.
 
@@ -122,7 +123,7 @@ the change.
 
 Zsh integrations are configured independently from the system package catalog
 in [`home/.chezmoidata/zsh.yaml`](./home/.chezmoidata/zsh.yaml). The default
-profile installs Starship and clones Zinit into
+profile downloads Starship as a user-local binary and clones Zinit into
 `${XDG_DATA_HOME:-$HOME}/zinit/zinit.git` when it is missing. Existing Zinit
 checkouts are preserved and are not updated automatically.
 
@@ -159,7 +160,14 @@ profile also installs JetBrains Mono Nerd Font; Homebrew installs it as a cask
 on macOS. Bash is intentionally left unchanged.
 
 The configuration includes history, basic aliases, shell completion, and the
-Bitwarden `rbw` SSH agent socket when `XDG_RUNTIME_DIR` is available. Only the
+Bitwarden `rbw` SSH agent socket when `XDG_RUNTIME_DIR` is available. `rbw` and Starship are installed as user-local external binaries in
+`~/.local/bin` through [`home/.chezmoiexternal.toml.tmpl`](./home/.chezmoiexternal.toml.tmpl), so
+they do not require `sudo`, `dpkg`, or availability in the distribution's
+package repositories. Their versions and URLs are configured in the `external`
+section of [`home/.chezmoidata/packages.yaml`](./home/.chezmoidata/packages.yaml).
+The current rbw binary target is Linux amd64; Starship also has Linux arm64
+and macOS amd64/arm64 targets. Other platforms should set the corresponding
+binary entry before enabling it. Only the
 explicitly managed `chezmoi`, `rbw`, `starship`, and `zsh` directories under
 `~/.config` are part of this repository; unrelated directories such as `Code`
 and `ubuntu-insights` are left alone.
