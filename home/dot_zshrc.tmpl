@@ -37,6 +37,8 @@ fi
 autoload -Uz compinit
 compinit
 
+zinit cdreplay -q
+
 for config_file in "${ZDOTDIR:-$HOME}"/.config/zsh/conf.d/*.zsh(N); do
     source "$config_file"
 done
