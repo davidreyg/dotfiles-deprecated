@@ -30,6 +30,9 @@ zsh:
         repository: zdharma-continuum/fast-syntax-highlighting
         ice:
           - 'atinit"zicompinit; zicdreplay"'
+      - enabled: true
+        repository: birdhackor/zsh-eza-ls-plugin
+        ice: []
     snippets:
       # Optional libraries can be enabled here when needed.
       - enabled: true
@@ -50,6 +53,10 @@ zsh:
         ice: []
       - enabled: true
         source: OMZ::plugins/docker/completions/_docker
+        ice:
+          - 'as"completion"'
+      - enabled: true
+        source: https://github.com/eza-community/eza/blob/main/completions/zsh/_eza
         ice:
           - 'as"completion"'
     for:
