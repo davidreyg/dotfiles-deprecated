@@ -42,7 +42,12 @@ grep -F 'zinit ice atload"unalias grv"' "$tmpdir/zshrc" >/dev/null
 grep -F 'zinit ice atinit"zicompinit; zicdreplay"' "$tmpdir/zshrc" >/dev/null
 grep -F "zinit snippet 'OMZ::plugins/docker/completions/_docker'" "$tmpdir/zshrc" >/dev/null
 grep -F 'brew install --cask' "$tmpdir/packages.sh" >/dev/null
+if grep -E 'package_installed [^ ]+ "(rbw|starship)"' "$tmpdir/packages.sh" >/dev/null; then
+    printf '%s\n' 'rbw and starship must not be installed by the system package script.' >&2
+    exit 1
+fi
 grep -F "git clone 'https://github.com/zdharma-continuum/zinit.git'" "$tmpdir/zinit.sh" >/dev/null
 grep -F '[".local/bin/rbw"]' "$tmpdir/external.toml" >/dev/null
 grep -F '[".local/bin/starship"]' "$tmpdir/external.toml" >/dev/null
+grep -F '[".local/bin/mise"]' "$tmpdir/external.toml" >/dev/null
 grep -F 'rbw_1.15.0_linux_amd64.tar.gz' "$tmpdir/external.toml" >/dev/null

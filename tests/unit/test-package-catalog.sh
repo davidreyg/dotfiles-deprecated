@@ -32,6 +32,7 @@ grep -F "as\"completion\"" "$zsh_catalog" >/dev/null
 grep -F "atinit\"zicompinit; zicdreplay\"" "$zsh_catalog" >/dev/null
 
 external=$DOTFILES_ROOT/home/.chezmoiexternal.toml.tmpl
-grep -F '[".local/bin/rbw"]' "$external" >/dev/null
-grep -F '[".local/bin/starship"]' "$external" >/dev/null
+external_catalog=$DOTFILES_ROOT/home/.chezmoidata/external.yaml
 grep -F 'archive-file' "$external" >/dev/null
+grep -F 'binaries:' "$external_catalog" >/dev/null
+grep -F '    mise:' "$external_catalog" >/dev/null

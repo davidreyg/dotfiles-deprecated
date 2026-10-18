@@ -42,9 +42,3 @@ zinit cdreplay -q
 for config_file in "${ZDOTDIR:-$HOME}"/.config/zsh/conf.d/*.zsh(N); do
     source "$config_file"
 done
-
-{{ if .zsh.starship.enabled -}}
-if command -v starship >/dev/null 2>&1; then
-    eval "$(starship init zsh)"
-fi
-{{- end }}

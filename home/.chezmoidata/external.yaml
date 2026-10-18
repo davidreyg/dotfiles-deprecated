@@ -1,0 +1,42 @@
+external:
+  enabled: true
+  binaries:
+    rbw:
+      enabled: true
+      version: 1.15.0
+      targets:
+        linux_amd64:
+          url: https://github.com/doy/rbw/releases/download/1.15.0/rbw_1.15.0_linux_amd64.tar.gz
+          path: rbw
+    starship:
+      enabled: true
+      version: 1.27.0
+      targets:
+        linux_amd64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-x86_64-unknown-linux-gnu.tar.gz
+          path: starship
+        linux_arm64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-aarch64-unknown-linux-gnu.tar.gz
+          path: starship
+        darwin_amd64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-x86_64-apple-darwin.tar.gz
+          path: starship
+        darwin_arm64:
+          url: https://github.com/starship/starship/releases/download/v1.27.0/starship-aarch64-apple-darwin.tar.gz
+          path: starship
+    mise:
+      enabled: true
+      version: 2026.10.14
+      targets:
+        linux_amd64:
+          url: https://github.com/jdx/mise/releases/download/v2026.10.14/mise-v2026.10.14-linux-x64.tar.gz
+          path: mise/bin/mise
+        linux_arm64:
+          url: https://github.com/jdx/mise/releases/download/v2026.10.14/mise-v2026.10.14-linux-arm64.tar.gz
+          path: mise/bin/mise
+        darwin_amd64:
+          url: https://github.com/jdx/mise/releases/download/v2026.10.14/mise-v2026.10.14-macos-x64.tar.gz
+          path: mise/bin/mise
+        darwin_arm64:
+          url: https://github.com/jdx/mise/releases/download/v2026.10.14/mise-v2026.10.14-macos-arm64.tar.gz
+          path: mise/bin/mise

@@ -27,6 +27,7 @@ not modified.
     │   ├── run_before_20_install-zinit.sh.tmpl
     │   └── run_onchange_after_90_change-shell.sh.tmpl
     ├── .chezmoiexternal.toml.tmpl
+    ├── .chezmoidata/external.yaml
     ├── dot_config/
     │   ├── chezmoi/chezmoi.toml
     │   ├── starship.toml
@@ -164,10 +165,12 @@ Bitwarden `rbw` SSH agent socket when `XDG_RUNTIME_DIR` is available. `rbw` and 
 `~/.local/bin` through [`home/.chezmoiexternal.toml.tmpl`](./home/.chezmoiexternal.toml.tmpl), so
 they do not require `sudo`, `dpkg`, or availability in the distribution's
 package repositories. Their versions and URLs are configured in the `external`
-section of [`home/.chezmoidata/packages.yaml`](./home/.chezmoidata/packages.yaml).
+section of [`home/.chezmoidata/external.yaml`](./home/.chezmoidata/external.yaml).
 The current rbw binary target is Linux amd64; Starship also has Linux arm64
-and macOS amd64/arm64 targets. Other platforms should set the corresponding
-binary entry before enabling it. Only the
+and macOS amd64/arm64 targets. `mise` follows the same model and is enabled by
+default. Add new binaries to `external.yaml`; the generic template selects the
+matching OS/architecture target and does not need to change. Other platforms
+should set the corresponding binary entry before enabling it. Only the
 explicitly managed `chezmoi`, `rbw`, `starship`, and `zsh` directories under
 `~/.config` are part of this repository; unrelated directories such as `Code`
 and `ubuntu-insights` are left alone.
@@ -200,3 +203,15 @@ GitHub Actions runs both the native Ubuntu test and the Docker test. The
 package installer remains intentionally outside the default test path because
 its behavior depends on the host distribution, privileges, package mirrors,
 and (on macOS) Homebrew casks.
+
+When testing with `chezmoi init --apply davidreyg`, remember that chezmoi
+clones the repository from GitHub rather than using the working tree mounted
+in the Docker image. Commit and push changes first, then rebuild the image if
+the image itself changed:
+
+```sh
+git add home tests README.md
+git commit
+git push origin main
+docker build --no-cache -f tests/Dockerfile -t dotfiles-tests .
+```
