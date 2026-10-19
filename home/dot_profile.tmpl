@@ -1,0 +1,7 @@
+# ~/.profile: executed by the command interpreter for login shells.
+
+{{ template "shared/paths.tmpl" . }}
+
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi

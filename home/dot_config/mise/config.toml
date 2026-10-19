@@ -1,4 +1,3 @@
 [tools]
 eza = "latest"
 fzf = "latest"
-node = "lts"

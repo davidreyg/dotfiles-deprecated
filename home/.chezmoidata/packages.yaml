@@ -1,7 +1,6 @@
 packages:
   groups:
     base:
-      enabled: true
       packages:
         git:
           apt: git
@@ -19,14 +18,6 @@ packages:
           apk: nmap
           brew: nmap
           brew_cask: false
-        jetbrains-mono-nerd-font:
-          apt: fonts-jetbrains-mono
-          dnf: jetbrains-mono-fonts
-          pacman: ttf-jetbrains-mono-nerd
-          zypper: jetbrains-mono-fonts
-          apk: font-jetbrains-mono
-          brew: font-jetbrains-mono-nerd-font
-          brew_cask: true
         make:
           apt: make
           dnf: make
@@ -35,8 +26,9 @@ packages:
           apk: make
           brew: make
           brew_cask: false
+        pinentry:
+          brew: pinentry-mac
     shell:
-      enabled: true
       packages:
         zsh:
           apt: zsh
@@ -47,29 +39,14 @@ packages:
           brew: zsh
           brew_cask: false
     development:
-      enabled: false
       packages:
-        curl:
-          apt: curl
-          dnf: curl
-          pacman: curl
-          zypper: curl
-          apk: curl
-          brew: curl
-          brew_cask: false
-        ripgrep:
-          apt: ripgrep
-          dnf: ripgrep
-          pacman: ripgrep
-          zypper: ripgrep
-          apk: ripgrep
-          brew: ripgrep
-          brew_cask: false
-        fd:
-          apt: fd-find
-          dnf: fd-find
-          pacman: fd
-          zypper: fd
-          apk: fd
-          brew: fd
-          brew_cask: false
+        curl: {}
+        pinentry:
+          brew: pinentry-mac
+        build-essential:
+          apt: build-essential
+          dnf: gcc
+          pacman: base-devel
+          zypper: patterns-devel-base-devel_basis
+          apk: build-base
+          brew: ""

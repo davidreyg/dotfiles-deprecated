@@ -2,6 +2,8 @@
 
 set -eu
 
+# mise is rendered after externals and configuration, so the first apply can
+# install tools and generate completions.
 mise="$HOME/.local/bin/mise"
 if [ ! -x "$mise" ]; then
     mise=$(command -v mise || true)

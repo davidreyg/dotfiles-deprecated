@@ -1,0 +1,8 @@
+[tools]
+node = "lts"
+python = "latest"
+go = "latest"
+rust = "latest"
+ripgrep = "latest"
+fd = "latest"
+gh = "latest"

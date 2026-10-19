@@ -15,6 +15,7 @@ zsh:
       - enabled: true
         repository: zsh-users/zsh-completions
         ice:
+          - 'blockf'
           - 'as"completion"'
       - enabled: true
         repository: zsh-users/zsh-autosuggestions
@@ -25,14 +26,10 @@ zsh:
       - enabled: true
         repository: MichaelAquilina/zsh-you-should-use
         ice: []
-      # Keep syntax highlighting last so it can wrap the completed widget set.
       - enabled: true
         repository: zdharma-continuum/fast-syntax-highlighting
         ice:
           - 'atinit"zicompinit; zicdreplay"'
-      - enabled: true
-        repository: birdhackor/zsh-eza-ls-plugin
-        ice: []
     snippets:
       # Optional libraries can be enabled here when needed.
       - enabled: true

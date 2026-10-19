@@ -3,24 +3,14 @@
 HISTFILE="${ZDOTDIR:-$HOME}/.zsh_history"
 HISTSIZE=5000
 SAVEHIST=5000
-HISTDUP=erase
 {{ range .zsh.options }}
 setopt {{ . }}
 {{- end }}
-setopt APPEND_HISTORY
-setopt HIST_IGNORE_DUPS
 setopt HIST_REDUCE_BLANKS
-setopt SHARE_HISTORY
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'l:|=* r:|=*' 'r:|=* l:|=*'
 
-if [ -d "$HOME/.local/share/mise/shims" ]; then
-    PATH="$HOME/.local/share/mise/shims:$PATH"
-fi
-if [ -d "$HOME/.local/share/mise/bin" ]; then
-    PATH="$HOME/.local/share/mise/bin:$PATH"
-fi
-export PATH
+{{ template "shared/paths.tmpl" . }}
 
 mise_completion_dir="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/site-functions"
 if [ -d "$mise_completion_dir" ]; then
@@ -33,24 +23,19 @@ if [ -r "$zinit_home/zinit.zsh" ]; then
     source "$zinit_home/zinit.zsh"
 {{ range .zsh.zinit.plugins }}{{ if .enabled }}
 {{ range .ice }}    zinit ice {{ . }}
-{{- end }}
+{{ end }}
     zinit light '{{ .repository }}'
-{{- end }}{{- end }}{{ range .zsh.zinit.snippets }}{{ if .enabled }}
+{{ end }}{{ end }}{{ range .zsh.zinit.snippets }}{{ if .enabled }}
 {{ range .ice }}    zinit ice {{ . }}
-{{- end }}
+{{ end }}
     zinit snippet '{{ .source }}'
-{{- end }}{{- end }}{{ range .zsh.zinit.for }}{{ if .enabled }}
+{{ end }}{{ end }}{{ range .zsh.zinit.for }}{{ if .enabled }}
 {{ range .ice }}    zinit ice {{ . }}
-{{- end }}
+{{ end }}
     zinit for{{ range .sources }} '{{ . }}'{{ end }}
-{{- end }}{{- end }}
+{{ end }}{{ end }}
 fi
 {{- end }}
-
-autoload -Uz compinit
-compinit
-
-zinit cdreplay -q
 
 for config_file in "${ZDOTDIR:-$HOME}"/.config/zsh/conf.d/*.zsh(N); do
     source "$config_file"

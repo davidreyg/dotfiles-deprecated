@@ -1,0 +1,5 @@
+paths:
+  prepend:
+    - .local/bin
+    - .local/share/mise/shims
+    - bin

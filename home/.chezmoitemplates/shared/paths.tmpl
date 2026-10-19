@@ -1,9 +1,11 @@
-if [ -d "$HOME/bin" ]; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
+_path_prefix=
+for _path_dir in {{ range .paths.prepend }}"$HOME/{{ . }}" {{ end }}; do
+    [ -d "$_path_dir" ] || continue
+    case ":$PATH:$_path_prefix:" in
+        *":$_path_dir:"*) continue ;;
+    esac
+    _path_prefix="${_path_prefix:+$_path_prefix:}$_path_dir"
+done
+[ -z "$_path_prefix" ] || PATH="$_path_prefix:$PATH"
+unset _path_prefix _path_dir
 export PATH

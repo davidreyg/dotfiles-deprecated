@@ -1,0 +1,5 @@
+{{- $profiles := list "base" "shell" -}}
+{{- if hasKey . "profiles" }}{{ $profiles = .profiles }}{{ end -}}
+{{ if not (has "development" $profiles) -}}
+.config/mise/conf.d/dev.toml
+{{ end -}}

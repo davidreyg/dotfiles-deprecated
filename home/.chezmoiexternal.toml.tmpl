@@ -1,13 +1,16 @@
+{{- $data := . -}}
 {{- $target := "" -}}
 {{- if eq .chezmoi.os "linux" -}}
-  {{- if eq .chezmoi.arch "amd64" -}}{{ $target = "linux_amd64" }}{{ end -}}
-  {{- if eq .chezmoi.arch "arm64" -}}{{ $target = "linux_arm64" }}{{ end -}}
+  {{- $suffix := "" -}}
+  {{- if eq .chezmoi.osRelease.id "alpine" }}{{ $suffix = "_musl" }}{{ end -}}
+  {{- if eq .chezmoi.arch "amd64" -}}{{ $target = printf "linux_amd64%s" $suffix }}{{ end -}}
+  {{- if eq .chezmoi.arch "arm64" -}}{{ $target = printf "linux_arm64%s" $suffix }}{{ end -}}
 {{- else if eq .chezmoi.os "darwin" -}}
   {{- if eq .chezmoi.arch "amd64" -}}{{ $target = "darwin_amd64" }}{{ end -}}
   {{- if eq .chezmoi.arch "arm64" -}}{{ $target = "darwin_arm64" }}{{ end -}}
 {{- end -}}
-{{- if and .external.enabled $target -}}
-{{- range $name, $binary := .external.binaries -}}
+{{- if and $data.external.enabled $target -}}
+{{- range $name, $binary := $data.external.binaries -}}
   {{- if $binary.enabled -}}
     {{- with (index $binary.targets $target) }}
 [".local/bin/{{ $name }}"]
@@ -15,8 +18,20 @@
     url = "{{ .url }}"
     path = "{{ .path }}"
     executable = true
-    refreshPeriod = "168h"
+    {{- if hasKey . "checksum" }}
+    checksum = "{{ .checksum }}"
     {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- if and $data.external.enabled (eq $data.chezmoi.os "linux") }}
+{{- range $name, $font := $data.external.fonts }}
+  {{- with (index $font.targets "linux") }}
+[".local/share/fonts/{{ .file }}"]
+    type = "archive-file"
+    url = "{{ .url }}"
+    path = "{{ .path }}"
   {{- end }}
 {{- end }}
 {{- end }}

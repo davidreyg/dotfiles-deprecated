@@ -1,0 +1,9 @@
+{{- $profiles := list "base" "shell" -}}
+{{- if promptBool "¿Perfil de desarrollo?" -}}
+{{- $profiles = append $profiles "development" -}}
+{{- end -}}
+[data]
+profiles = {{ $profiles | toToml }}
+
+[data.shell]
+change_default = true

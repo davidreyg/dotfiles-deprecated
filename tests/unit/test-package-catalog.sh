@@ -7,12 +7,10 @@ set -eu
 catalog=$DOTFILES_ROOT/home/.chezmoidata/packages.yaml
 zsh_catalog=$DOTFILES_ROOT/home/.chezmoidata/zsh.yaml
 
-for package in git nmap jetbrains-mono-nerd-font make; do
+for package in git nmap make pinentry; do
     grep -E "^        ${package}:" "$catalog" >/dev/null
 done
 
-grep -A8 '^        jetbrains-mono-nerd-font:' "$catalog" |
-    grep -F 'brew_cask: true' >/dev/null
 if grep -E '^        (rbw|starship):' "$catalog" >/dev/null; then
     printf '%s\n' 'rbw and starship must use external binaries, not system packages.' >&2
     exit 1
@@ -36,3 +34,4 @@ external_catalog=$DOTFILES_ROOT/home/.chezmoidata/external.yaml
 grep -F 'archive-file' "$external" >/dev/null
 grep -F 'binaries:' "$external_catalog" >/dev/null
 grep -F '    mise:' "$external_catalog" >/dev/null
+grep -F '  fonts:' "$external_catalog" >/dev/null
